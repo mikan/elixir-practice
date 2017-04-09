@@ -1,0 +1,2 @@
+%{"earmark": {:hex, :earmark, "1.2.0", "bf1ce17aea43ab62f6943b97bd6e3dc032ce45d4f787504e3adf738e54b42f3a", [:mix], []},
+  "json": {:hex, :json, "1.0.0", "4824dadb01e14395f65e9d18da294d534326d7eed77996f3c22f74a9870179eb", [:mix], [{:earmark, ">= 0.0.0", [hex: :earmark, optional: false]}]}}
