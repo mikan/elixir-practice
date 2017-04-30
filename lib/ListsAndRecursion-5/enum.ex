@@ -1,5 +1,5 @@
 defmodule MyEnum do
-  def all?(enumerable, fun), do: filter(enumerable, fun) != []
+  def all?(enumerable, fun \\ fn x -> x end), do: filter(enumerable, fun) != []
   def each(enumerable, fun), do: for e <- enumerable, do: fun.(e)
   def filter(enumerable, fun), do: _filter(enumerable, [], fun)
   defp _filter([], filtered, _), do: filtered;
