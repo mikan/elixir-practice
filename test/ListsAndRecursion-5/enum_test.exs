@@ -5,7 +5,7 @@ defmodule MyEnumTest do
     assert MyEnum.all?([1, 2, 3, 4, 5], &(&1 == 0)) == false
   end
   test "all? default fun case" do
-    assert MyEnum.all?([]) == false
+    assert MyEnum.all?([]) == true
     assert MyEnum.all?([1, 2, 3, 4, 5]) == true
   end
   test "each normal case" do
