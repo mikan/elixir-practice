@@ -1,8 +1,7 @@
 defmodule Tax do
-  def tax_ins(rates, orders), do: orders |> Stream.map(fn v -> tax_in(v, rates, v[:ship_to]) end) |> Enum.to_list
-  defp tax_in(order, rates, state) when state == :NC, do: Keyword.merge(order, [total_amount: order[:net_amount] * (1 + rates[state])])
-  defp tax_in(order, rates, state) when state == :TX, do: Keyword.merge(order, [total_amount: order[:net_amount] * (1 + rates[state])])
-  defp tax_in(order,_ , _), do: Keyword.merge(order, [total_amount: order[:net_amount]])
+  def tax_ins(rates, orders), do: Stream.map(orders, fn v -> tax_in(v, rates[v[:ship_to]]) end) |> Enum.to_list
+  defp tax_in(order, nil), do: Keyword.merge(order, [total_amount: order[:net_amount]])
+  defp tax_in(order, rate), do: Keyword.merge(order, [total_amount: order[:net_amount] * (1 + rate)])
 end
 
 tax_rates = [ NC: 0.075, TX: 0.08 ]
