@@ -1,7 +1,7 @@
 defmodule Tax do
-  def tax_ins(rates, orders), do: Enum.map(orders, fn v -> tax_in(v, rates[v[:ship_to]]) end)
-  defp tax_in(order, nil), do: Keyword.merge(order, [total_amount: order[:net_amount]])
-  defp tax_in(order, rate), do: Keyword.merge(order, [total_amount: order[:net_amount] * (1 + rate)])
+  def tax_ins(rates, orders), do: Enum.map(orders, &(tax_in(&1, rates[&1[:ship_to]])))
+  defp tax_in(order, nil), do: order ++ [total_amount: order[:net_amount]]
+  defp tax_in(order, rate), do: order ++ [total_amount: order[:net_amount] * (1 + rate)]
 end
 
 tax_rates = [ NC: 0.075, TX: 0.08 ]
