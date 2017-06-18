@@ -1,7 +1,7 @@
 defmodule MyString1 do
   def printable?([]), do: true
   def printable?(enumerable), do: Enum.all?(enumerable, &(_printable? &1))
-  defp _printable?(c) when c >= 32 and c <= 126, do: true
+  defp _printable?(c) when c >= ?\s and c <= ?~, do: true
   defp _printable?(_), do: false
 end
 
