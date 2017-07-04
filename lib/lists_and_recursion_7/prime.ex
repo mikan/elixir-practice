@@ -1,5 +1,5 @@
 defmodule Span do
-  # same as ListsAndRecursion-4
+  # same as lists_and_recursion_4
   def span(from, to) when to < from, do: []
   def span(from, to), do: [from | span(from + 1, to)]
 end

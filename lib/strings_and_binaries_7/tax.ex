@@ -15,7 +15,7 @@ defmodule StringsAndBinaries7 do
     {:net_amount, Enum.at(data, 2) |> String.to_float}]
 end
 
-IO.inspect StringsAndBinaries7.tax_from_file(tax_rates, "lib/StringsAndBinaries-7/sales.csv")
+IO.inspect StringsAndBinaries7.tax_from_file(tax_rates, "lib/strings_and_binaries_7/sales.csv")
 # [[id: 123, ship_to: :NC, net_amount: 100.0, total_amount: 107.5],
 #  [id: 124, ship_to: :OK, net_amount: 35.5, total_amount: 35.5],
 #  [id: 125, ship_to: :TX, net_amount: 24.0, total_amount: 25.92],

@@ -1,5 +1,5 @@
-defmodule Tax do
-  def tax_ins(rates, orders), do: Enum.map(orders, &(tax_in(&1, rates[&1[:ship_to]])))
+defmodule ListsAndRecursion8 do
+  def tax_ins(orders, rates), do: orders |> Enum.map(&tax_in(&1, rates[&1[:ship_to]]))
   defp tax_in(order, nil), do: order ++ [total_amount: order[:net_amount]]
   defp tax_in(order, rate), do: order ++ [total_amount: order[:net_amount] * (1 + rate)]
 end
@@ -15,7 +15,7 @@ orders = [
   [ id: 129, ship_to: :CA, net_amount: 102.00 ],
   [ id: 130, ship_to: :NC, net_amount: 50.00 ]]
 
-IO.inspect Tax.tax_ins(tax_rates, orders)
+IO.inspect ListsAndRecursion8.tax_ins(orders, tax_rates)
 # [[id: 123, ship_to: :NC, net_amount: 100.0, total_amount: 107.5],
 #  [id: 124, ship_to: :OK, net_amount: 35.5, total_amount: 35.5],
 #  [id: 125, ship_to: :TX, net_amount: 24.0, total_amount: 25.92],
