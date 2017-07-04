@@ -1,6 +1,7 @@
 # elixir-practice
 
 [![Build Status](https://travis-ci.org/aosn/elixir.svg?branch=master)](https://travis-ci.org/mikan/elixir-practice)
+[![Coverage Status](https://coveralls.io/repos/github/mikan/elixir-practice/badge.svg?branch=master)](https://coveralls.io/github/mikan/elixir-practice?branch=master)
 
 ## 概要
 
