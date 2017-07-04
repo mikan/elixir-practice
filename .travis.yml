@@ -6,3 +6,5 @@ notifications:
   email: false
 before_install:
   git submodule update --init
+script:
+  - "MIX_ENV=test mix do deps.get, compile, coveralls.travis"
