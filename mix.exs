@@ -34,6 +34,7 @@ defmodule ElixirPractice.Mixfile do
   defp deps do
     [
       {:json, "~> 1.0"},
+      {:httpoison, "~> 0.8"},
       {:excoveralls, "~> 0.7", only: :test}
     ]
   end
