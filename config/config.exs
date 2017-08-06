@@ -20,6 +20,7 @@ use Mix.Config
 #
 #     config :logger, level: :info
 #
+config :issues, github_url: "https://api.github.com"
 
 # It is also possible to import configuration files, relative to this
 # directory. For example, you can emulate configuration per environment

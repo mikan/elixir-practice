@@ -19,7 +19,7 @@ defmodule ElixirPractice.Mixfile do
   # Type "mix help compile.app" for more information
   def application do
     # Specify extra applications you'll use from Erlang/Elixir
-    [extra_applications: [:logger]]
+    [extra_applications: [:logger, :httpotion]]
   end
 
   # Dependencies can be Hex packages:
@@ -34,7 +34,8 @@ defmodule ElixirPractice.Mixfile do
   defp deps do
     [
       {:json, "~> 1.0"},
-      {:httpoison, "~> 0.8"},
+      {:httpotion, "~> 3.0.2"}, # Replaced from httpoison, See https://elixirforum.com/t/programming-elixir-chapter-13-problem/5793/10
+      {:poison, "~> 2.2"},
       {:excoveralls, "~> 0.7", only: :test}
     ]
   end
