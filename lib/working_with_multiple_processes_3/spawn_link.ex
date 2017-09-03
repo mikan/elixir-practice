@@ -2,7 +2,7 @@ defmodule WorkingWithMultipleProcesses3 do
   import :timer, only: [ sleep: 1 ]
 
   def sad_function(back) do
-    receive do token -> send back, "received #{token}." end
+    send back, "message sent"
     exit(:boom)
   end
   def run do
@@ -13,13 +13,16 @@ defmodule WorkingWithMultipleProcesses3 do
   end
   def receiver do
     receive do
-      {_, msg} -> IO.puts "MESSAGE RECEIVED: #{inspect msg}"
+      msg -> IO.puts "MESSAGE RECEIVED: #{inspect msg}"
       receiver()
     after 1500 -> IO.puts "Nothing happend as far as I am concerned"
     end
   end
 end
 
-WorkingWithMultipleProcesses3.run
+WorkingWithMultipleProcesses3.run()
 
+# Result:
+# MESSAGE RECEIVED: "message sent"
+# MESSAGE RECEIVED: {:EXIT, #PID<0.78.0>, :boom}
 # Nothing happend as far as I am concerned
