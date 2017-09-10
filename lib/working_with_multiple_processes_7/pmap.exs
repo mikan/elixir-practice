@@ -6,7 +6,7 @@ defmodule WorkingWithMultipleProcesses7 do
         spawn_link fn -> (send me, { self(), fun.(elem) }) end
       end)
       |> Enum.map(fn (pid) ->
-        receive do { ^pid, result } -> result end
+        receive do { ^pid, result } -> result end # pid は Enum.map の順序で舐める
       end)
   end
   def pmap_illegal(collection, fun) do
@@ -16,7 +16,7 @@ defmodule WorkingWithMultipleProcesses7 do
         spawn_link fn -> (send me, { self(), fun.(elem) }) end
       end)
       |> Enum.map(fn (_pid) ->
-        receive do { _pid, result } -> result end
+        receive do { _pid, result } -> result end # pid は receive の順序で舐める
       end)
   end
 end
