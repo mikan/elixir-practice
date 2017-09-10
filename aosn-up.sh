@@ -2,6 +2,7 @@
 git push
 cd ../../aosn/elixir
 git pull
+git submodule update
 cd mikan
 git pull origin master
 cd ..
