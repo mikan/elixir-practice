@@ -1,5 +1,5 @@
 defmodule WorkingWithMultipleProcesses9Scanner do
-#  @word "cat"
+  # @word "cat"
   @word "fn"
   def scan(scheduler) do
     send scheduler, {:ready, self()}
@@ -48,6 +48,8 @@ files = File.ls!("lib/functions_1")
   :run,
   [length(files), WorkingWithMultipleProcesses9Scanner, :scan, files]
 )
-sum = result |> Keyword.values() |> Enum.sum
+sum = result
+      |> Keyword.values()
+      |> Enum.sum
 IO.puts "result: #{sum} (time: #{time / 1000000.0})"
 # result: 3 (time: 0.016)
