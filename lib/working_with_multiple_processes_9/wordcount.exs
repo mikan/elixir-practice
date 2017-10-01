@@ -2,8 +2,9 @@ defmodule WorkingWithMultipleProcesses9Scanner do
   def scan(scheduler) do
     send scheduler, {:ready, self()}
     receive do
-      {:scan, f, word, client} -> send client, {:answer, f, scan_file(f, word), self()}
-                            scan(scheduler)
+      {:scan, f, word, client} ->
+        send client, {:answer, f, scan_file(f, word), self()}
+        scan(scheduler)
       {:shutdown} ->
         exit(:normal)
     end
@@ -12,7 +13,7 @@ defmodule WorkingWithMultipleProcesses9Scanner do
   defp scan_file(f, word) do
     File.read!(f)
     |> String.split(" ")
-    |> Enum.filter(fn (w) -> w == word end)
+    |> Enum.filter(&(&1 == word))
     |> Enum.count
   end
 end
@@ -26,22 +27,26 @@ defmodule WorkingWithMultipleProcesses9Scheduler do
 
   defp schedule_processes(processes, queue, results, word) do
     receive do
-      {:ready, pid} when length(queue) > 0 -> [next | tail] = queue
-                                              send pid, {:scan, next, word, self()}
-                                              schedule_processes(processes, tail, results, word)
-      {:ready, pid} -> send pid, {:shutdown}
-                       if length(processes) > 1 do
-                         schedule_processes(List.delete(processes, pid), queue, results, word)
-                       else
-                         Enum.sort(results, fn {n1, _}, {n2, _} -> n1 <= n2 end)
-                       end
-      {:answer, number, result, _pid} -> schedule_processes(processes, queue, [{number, result} | results], word)
+      {:ready, pid} when length(queue) > 0 ->
+        [next | tail] = queue
+        send pid, {:scan, next, word, self()}
+        schedule_processes(processes, tail, results, word)
+      {:ready, pid} ->
+        send pid, {:shutdown}
+        if length(processes) > 1 do
+          schedule_processes(List.delete(processes, pid), queue, results, word)
+        else
+          Enum.sort(results, fn {n1, _}, {n2, _} -> n1 <= n2 end)
+        end
+      {:answer, number, result, _pid} ->
+        schedule_processes(processes, queue, [{number, result} | results], word)
     end
   end
 end
 
 word = "a"
-files = File.ls!(".") |> Enum.filter(fn (f) -> !File.dir?(f) end)
+files = File.ls!(".")
+        |> Enum.filter(&(!File.dir?(&1)))
 {time, result} = :timer.tc(
   WorkingWithMultipleProcesses9Scheduler,
   :run,

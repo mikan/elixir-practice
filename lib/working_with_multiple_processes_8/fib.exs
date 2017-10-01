@@ -2,8 +2,9 @@ defmodule FibSolver do
   def fib(scheduler) do
     send scheduler, {:ready, self()}
     receive do
-      {:fib, n, client} -> send client, {:answer, n, fib_calc(n), self()}
-                           fib(scheduler)
+      {:fib, n, client} ->
+        send client, {:answer, n, fib_calc(n), self()}
+        fib(scheduler)
       {:shutdown} ->
         exit(:normal)
     end
@@ -24,16 +25,19 @@ defmodule Scheduler do
 
   defp schedule_processes(processes, queue, results) do
     receive do
-      {:ready, pid} when length(queue) > 0 -> [next | tail] = queue
-                                              send pid, {:fib, next, self()}
-                                              schedule_processes(processes, tail, results)
-      {:ready, pid} -> send pid, {:shutdown}
-                       if length(processes) > 1 do
-                         schedule_processes(List.delete(processes, pid), queue, results)
-                       else
-                         Enum.sort(results, fn {n1, _}, {n2, _} -> n1 <= n2 end)
-                       end
-      {:answer, number, result, _pid} -> schedule_processes(processes, queue, [{number, result} | results])
+      {:ready, pid} when length(queue) > 0 ->
+        [next | tail] = queue
+        send pid, {:fib, next, self()}
+        schedule_processes(processes, tail, results)
+      {:ready, pid} ->
+        send pid, {:shutdown}
+        if length(processes) > 1 do
+          schedule_processes(List.delete(processes, pid), queue, results)
+        else
+          Enum.sort(results, fn {n1, _}, {n2, _} -> n1 <= n2 end)
+        end
+      {:answer, number, result, _pid} ->
+        schedule_processes(processes, queue, [{number, result} | results])
     end
   end
 end
