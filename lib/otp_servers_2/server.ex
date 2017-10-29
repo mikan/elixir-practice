@@ -5,8 +5,8 @@ defmodule OTPServers2 do
     {:reply, head, tail}
   end
 
-  def handle_cast({:push, list}, stack) do
-    {:noreply, list ++ stack}
+  def handle_cast({:push, item}, stack) do
+    {:noreply, [item | stack]}
   end
 end
 
@@ -14,14 +14,12 @@ end
 # {:ok, #PID<0.180.0>}
 # iex(2)> GenServer.call(pid, :pop)
 # 5
-# iex(3)> GenServer.cast(pid, {:push, [1,2,3]})
+# iex(3)> GenServer.cast(pid, {:push, "push"})
 # :ok
 # iex(4)> GenServer.call(pid, :pop)
-# 1
+# "push"
 # iex(5)> GenServer.call(pid, :pop)
-# 2
-# iex(6)> GenServer.call(pid, :pop)
-# 3
-# iex(7)> GenServer.call(pid, :pop)
 # "cat"
-# iex(8)>
+# iex(6)> GenServer.call(pid, :pop)
+# 9
+# iex(7)>
