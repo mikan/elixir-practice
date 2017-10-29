@@ -2,7 +2,7 @@ defmodule OTPServer1 do
   use GenServer
 
   def handle_call(:pop, _from, [head | tail]) do
-    { :reply, head, tail }
+    {:reply, head, tail}
   end
 end
 
