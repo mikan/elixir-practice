@@ -6,7 +6,7 @@ defmodule OTPServers3 do
   end
 
   def handle_cast({:push, item}, stack) do
-    {:noreply, [item, stack]}
+    {:noreply, [item | stack]}
   end
 end
 
