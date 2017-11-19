@@ -1,4 +1,3 @@
-#!/bin/bash
 git push
 cd ../../aosn/elixir
 git pull
