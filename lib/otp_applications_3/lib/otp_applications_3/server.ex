@@ -1,6 +1,8 @@
 defmodule OTPApplications3.Server do
   use GenServer
 
+  @vsn "0"
+
   #####
   # 外部 API
 
