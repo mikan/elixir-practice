@@ -6,15 +6,6 @@ defmodule OTPApplications3.Application do
   use Application
 
   def start(_type, _args) do
-    import Supervisor.Spec, warn: false
-
-    children = [
-      worker(OTPApplications3.Server, [123])
-    ]
-
-    # See https://hexdocs.pm/elixir/Supervisor.html
-    # for other strategies and supported options
-    opts = [strategy: :one_for_one, name: OtpApplications3.Supervisor]
-    {:ok, _pid} = Supervisor.start_link(children, opts)
+    {:ok, _pid} = OTPApplications3.Supervisor.start_link(123)
   end
 end
