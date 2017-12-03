@@ -1,5 +1,8 @@
 defmodule OTPApplications3.Stash do
   use GenServer
+  require Logger
+
+  @vsn "1"
 
   #####
   # 外部 API
@@ -25,5 +28,13 @@ defmodule OTPApplications3.Stash do
 
   def handle_cast({:save_value, value}, _current_value) do
     {:noreply, value}
+  end
+
+  def code_change("0", old_state = {current_number, _stash_pid}, _extra) do
+    new_state = %{:n => current_number, :delta => 1}
+    Logger.info "Changing code from 0 to 1"
+    Logger.info inspect(old_state)
+    Logger.info inspect(new_state)
+    {:ok, new_state}
   end
 end
