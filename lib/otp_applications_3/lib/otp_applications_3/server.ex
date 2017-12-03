@@ -23,12 +23,16 @@ defmodule OTPApplications3.Server do
     GenServer.cast __MODULE__, {:increment_number, delta}
   end
 
+  def fuck do
+    GenServer.cast __MODULE__, {:fuck, 1}
+  end
+
   #####
   # GenServer の実装
 
   def init(stash_pid) do
-    current_number = OTPApplications3.Stash.get_value stash_pid
-    {:ok, %State{current_number: current_number, stash_pid: stash_pid}}
+    n_and_delta = OTPApplications3.Stash.get_value stash_pid
+    {:ok, %State{current_number: n_and_delta[:n], delta: n_and_delta[:delta], stash_pid: stash_pid}}
   end
 
   def handle_call(:next_number, _from, state) do
@@ -40,7 +44,11 @@ defmodule OTPApplications3.Server do
   end
 
   def terminate(_reason, state) do
-    OTPApplications3.Stash.save_value(state.stash_pid, state.current_number)
+    OTPApplications3.Stash.save_value(state.stash_pid, %{:n => state.current_number, :delta => state.delta})
+  end
+
+  def handle_cast({:fuck, _delta}, _state) do
+    raise "fuck up"
   end
 
   def code_change("0", old_state = {current_number, stash_pid}, _extra) do

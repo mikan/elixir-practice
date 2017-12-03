@@ -9,7 +9,7 @@ defmodule OTPApplications3.Supervisor do
 
   def start_workers(sup, initial_number) do
     # スタッシュワーカーを開始
-    {:ok, stash} = Supervisor.start_child(sup, worker(OTPApplications3.Stash, [initial_number]))
+    {:ok, stash} = Supervisor.start_child(sup, worker(OTPApplications3.Stash, [%{:n => initial_number, :delta => 1}]))
     # そして、実際の sequence サーバのスーパーバイザを開始
     Supervisor.start_child(sup, supervisor(OTPApplications3.SubSupervisor, [stash]))
   end

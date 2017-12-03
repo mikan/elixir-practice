@@ -4,8 +4,8 @@ defmodule OTPApplications3.Stash do
   #####
   # 外部 API
 
-  def start_link(current_number) do
-    {:ok, _pid} = GenServer.start_link(__MODULE__, current_number)
+  def start_link(n_and_delta) do
+    {:ok, _pid} = GenServer.start_link(__MODULE__, n_and_delta)
   end
 
   def save_value(pid, value) do
