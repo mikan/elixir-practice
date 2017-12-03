@@ -4,7 +4,7 @@ defmodule OTPApplications3.Mixfile do
   def project do
     [
       app: :otp_applications_3,
-      version: "0.1.0",
+      version: "0.0.3",
       elixir: "~> 1.5",
       start_permanent: Mix.env == :prod,
       deps: deps()
@@ -15,7 +15,7 @@ defmodule OTPApplications3.Mixfile do
   def application do
     [
       extra_applications: [:logger],
-      mod: {OTPApplications3.Application, 123},
+      mod: {OTPApplications3.Application, 456},
       registered: [OTPApplications3.Server]
     ]
   end

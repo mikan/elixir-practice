@@ -1,7 +1,11 @@
 defmodule OTPApplications3.Server do
   use GenServer
+  require Logger
 
-  @vsn "0"
+  @vsn "1"
+  defmodule State do
+    defstruct current_number: 0, stash_pid: nil, delta: 1
+  end
 
   #####
   # 外部 API
@@ -11,7 +15,8 @@ defmodule OTPApplications3.Server do
   end
 
   def next_number do
-    GenServer.call __MODULE__, :next_number
+    with number = GenServer.call(__MODULE__, :next_number),
+         do: "The next number is #{number}"
   end
 
   def increment_number(delta) do
@@ -23,22 +28,26 @@ defmodule OTPApplications3.Server do
 
   def init(stash_pid) do
     current_number = OTPApplications3.Stash.get_value stash_pid
-    {:ok, {current_number, stash_pid}}
+    {:ok, %State{current_number: current_number, stash_pid: stash_pid}}
   end
 
-  def handle_call(:next_number, _from, {current_number, stash_pid}) do
-    {:reply, current_number, {current_number + 1, stash_pid}}
+  def handle_call(:next_number, _from, state) do
+    {:reply, state.current_number, %{state | current_number: state.current_number + state.delta}}
   end
 
-  def handle_cast({:increment_number, delta}, {current_number, stash_pid}) do
-    {:noreply, {current_number + delta, stash_pid}}
+  def handle_cast({:increment_number, delta}, state) do
+    {:noreply, %{state | current_number: state.current_number + delta, delta: delta}}
   end
 
-  def format_status(_reason, [_pdict, state]) do
-    [data: [{'State', "My current state is '#{inspect state}', and I'm happy"}]]
+  def terminate(_reason, state) do
+    OTPApplications3.Stash.save_value(state.stash_pid, state.current_number)
   end
 
-  def terminate(_reason, {current_number, stash_pid}) do
-    OTPApplications3.Stash.save_value(stash_pid, current_number)
+  def code_change("0", old_state = {current_number, stash_pid}, _extra) do
+    new_state = %State{current_number: current_number, stash_pid: stash_pid, delta: 1}
+    Logger.info "Changing code from 0 to 1"
+    Logger.info inspect(old_state)
+    Logger.info inspect(new_state)
+    {:ok, new_state}
   end
 end

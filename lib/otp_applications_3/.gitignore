@@ -21,3 +21,5 @@ erl_crash.dump
 
 # mix release
 /rel/
+
+/deploy/
