@@ -8,7 +8,7 @@ defmodule Protocols3 do
         {:cont, acc}
       end
     )
-    :ok
+    :ok # Convention of Enum.each
   end
 
   def filter(collection, fun) do
